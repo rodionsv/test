@@ -1,16 +1,19 @@
 import React, { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchImage, removeCurrentImage } from '../store/history/actions';
-import { Image } from '../shared/interfaces/image';
-import { RootState } from '../store/root-reducer';
-import { Loader } from '../styles/styled-components/Loader';
+import { fetchImage, removeCurrentImage } from '../../store/history/actions';
+import { Image } from '../../shared/interfaces/image';
+import { RootState } from '../../store/root-reducer';
+import { Loader } from '../../styles/styled-components/Loader';
+import { Card } from '../../styles/styled-components/Card';
+import { UploadButton } from '../../styles/styled-components/UploadButton';
 
 const Main: FC = () => {
     const dispatch = useDispatch();
-    const { loading }: { loading: boolean } = useSelector((state: RootState) => state.app);
     const { currentImage }: { currentImage: Image } = useSelector((state: RootState) => state.history);
 
+    const [loading, setLoading] = useState<boolean>(false);
     const [image, setImage] = useState<Image>();
+    const [src, setSrc] = useState<string>();
 
     const imgRef = useRef<HTMLImageElement>(null);
 
@@ -21,31 +24,73 @@ const Main: FC = () => {
     }, []);
 
     useEffect(() => {
-        setImage(currentImage);
+        if (!currentImage) return;
+        const createImage = (data: Blob) => {
+            const reader = new FileReader();
+            reader.onload = () => {
+                if (typeof reader.result === 'string') {
+                    setSrc(reader.result);
+                    setLoading(false);
+                }
+            };
+            reader.readAsDataURL(data);
+        };
+
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', currentImage.url, true);
+        xhr.responseType = 'blob';
+        // function instead of arrow function for this
+        xhr.addEventListener('load', function () {
+            createImage(this.response);
+        });
+        xhr.send();
     }, [currentImage]);
 
     const renderImage = useMemo(
         () =>
-            !!image && image.src ? (
-                <img ref={imgRef} src={image.src} alt="Картинка" />
+            !!currentImage && src ? (
+                <img style={{ margin: 'auto' }} ref={imgRef} src={src} alt="Картинка" />
             ) : (
-                <p>Картинка ещё не загружена</p>
+                <p
+                    style={{
+                        margin: 0,
+                        fontSize: '23px',
+                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                        // @ts-ignore
+                        fontWeight: '500',
+                        lineHeight: '430px',
+                        textAlign: 'center',
+                    }}
+                >
+                    Картинка ещё не загружена
+                </p>
             ),
-        [image],
+        [image, src],
     );
 
     const clickHandler = useCallback(() => {
+        setLoading(true);
         dispatch(fetchImage());
     }, []);
 
     return (
-        <div>
-            {renderImage}
-            <Loader />
-            <button type="button" onClick={clickHandler}>
+        <Card style={{ padding: '80px' }}>
+            <div
+                style={{
+                    display: 'grid',
+                    width: '600px',
+                    height: '430px',
+                    margin: 'auto',
+                    border: '1px solid #b8b8b8',
+                }}
+            >
+                {loading && <Loader />}
+                {!loading && renderImage}
+            </div>
+            <UploadButton type="button" onClick={clickHandler} disabled={loading}>
                 Загрузить
-            </button>
-        </div>
+            </UploadButton>
+        </Card>
     );
 };
 

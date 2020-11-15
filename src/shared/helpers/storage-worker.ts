@@ -18,7 +18,6 @@ class StorageWorker {
         if (!storage) {
             return false;
         }
-
         if (!storage[namespace]) {
             this.initNamespace(storage, namespace);
         }
@@ -40,7 +39,7 @@ class StorageWorker {
         return true;
     }
 
-    private static initNamespace(storage: Dictionary<any>, namespace: string) {
+    private static initNamespace(storage: Dictionary<string | any>, namespace: string) {
         storage[namespace] = JSON.stringify({});
         return true;
     }
