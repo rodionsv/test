@@ -4,3 +4,4 @@ export const ADD_IMAGE = 'ADD_IMAGE';
 export const SET_LAST_IMAGE = 'SET_LAST_IMAGE';
 export const REMOVE_LAST_IMAGE = 'REMOVE_LAST_IMAGE';
 export const REMOVE_IMAGE = 'REMOVE_IMAGE';
+export const UPDATE_IMAGE = 'UPDATE_IMAGE';

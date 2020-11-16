@@ -27,7 +27,7 @@ const History: FC = () => {
                 // for totally unique
                 // eslint-disable-next-line react/no-array-index-key
                 <li key={`${img.id}${idx}`}>
-                    <ImageCard name={img.name} url={img.url} id={img.id} date={img.date} />
+                    <ImageCard name={img.name} url={img.url} id={img.id} date={img.date} imageSrc={img.src} />
                 </li>
             ));
         }
@@ -41,11 +41,11 @@ const History: FC = () => {
     return (
         <Card style={{ padding: '14px 65px 25px' }}>
             <BackButton to={{ pathname: '/' }}>История</BackButton>
-            {!!images && !!images.length && <ul>{listItems}</ul>}
+            {Array.isArray(images) && !!images.length && <ul>{listItems}</ul>}
             {!images.length && (
                 <p style={{ margin: '16px auto', fontSize: '24px', textAlign: 'center' }}>История пока пуста</p>
             )}
-            {!!images && images.length > 5 && !isShowAll && (
+            {Array.isArray(images) && images.length > 5 && !isShowAll && (
                 <ShowMoreButton onClick={() => setShowAll(true)} type="button">
                     Показать еще
                 </ShowMoreButton>

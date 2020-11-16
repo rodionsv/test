@@ -13,23 +13,6 @@ const App: FC = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if (!window.indexedDB) {
-            window.alert('Ваш браузер не поддерживат стабильную версию IndexedDB. Такие-то функции будут недоступны');
-        }
-
-        const openRequest = indexedDB.open('history');
-
-        openRequest.onsuccess = () => {
-            const db = openRequest.result;
-
-            db.onversionchange = () => {
-                db.close();
-                alert('База данных устарела, пожалуста, перезагрузите страницу.');
-            };
-
-            // ...база данных доступна как объект db...
-        };
-
         const history = localStorage.getItem('history');
         if (history) {
             const { images } = JSON.parse(history);

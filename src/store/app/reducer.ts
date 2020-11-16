@@ -1,6 +1,10 @@
 import { HIDE_LOADER, SHOW_LOADER } from './types';
 import { AppActionTypes } from './actions';
 
+export interface AppState {
+    loading: boolean;
+}
+
 const initialState = {
     loading: false,
 };

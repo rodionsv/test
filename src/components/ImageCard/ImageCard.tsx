@@ -1,21 +1,27 @@
 import React, { FC, useEffect, useMemo, useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { removeImage } from '../../store/history/actions';
+import { useDispatch, useSelector } from 'react-redux';
+import { removeImage, updateImage } from '../../store/history/actions';
 import { monthNames } from '../../constants/month-names';
 import { convertMonth } from '../../shared/helpers/date-functions';
 import { HistoryCard } from '../../styles/styled-components/HistoryCard';
 import { DeleteButton } from '../../styles/styled-components/DeleteButton';
 import { Skeleton } from '../../styles/styled-components/Skeleton';
+import { Image } from '../../shared/interfaces/image';
+import { RootState } from '../../store/root-reducer';
 
 interface Props {
     name: string;
     url: string;
     id: string | number;
+    imageSrc?: string | undefined;
     date: Date | string;
 }
 
-export const ImageCard: FC<Props> = ({ name, url, id, date }) => {
+export const ImageCard: FC<Props> = ({ name, url, id, date, imageSrc }) => {
     const dispatch = useDispatch();
+    const currentImage = useSelector((state: RootState) =>
+        state.history.images.find((image: Image) => image.id === id),
+    );
 
     const imgRef = useRef<HTMLImageElement>(null);
 
@@ -29,7 +35,7 @@ export const ImageCard: FC<Props> = ({ name, url, id, date }) => {
         date instanceof Date ? monthNames[date.getMonth()] : monthNames[new Date(date).getMonth()],
     );
     const [year] = useState<number>(date instanceof Date ? date.getFullYear() : new Date(date).getFullYear());
-    const [src, setSrc] = useState<string>('');
+    const [src, setSrc] = useState<string>(imageSrc ?? '');
 
     useEffect(() => {
         setMonth(convertMonth(month));
@@ -40,6 +46,10 @@ export const ImageCard: FC<Props> = ({ name, url, id, date }) => {
     }, []);
 
     useEffect(() => {
+        if (imageSrc) {
+            setLoading(false);
+            return;
+        }
         const createImage = (data: Blob) => {
             const reader = new FileReader();
             reader.onload = () => {
@@ -50,7 +60,7 @@ export const ImageCard: FC<Props> = ({ name, url, id, date }) => {
             };
             reader.readAsDataURL(data);
         };
-        if (!isCancelled) {
+        if (!isCancelled || !src || src === imageSrc) {
             const { signal } = abortController;
 
             const fetchImage = async (test: string) => {
@@ -62,19 +72,22 @@ export const ImageCard: FC<Props> = ({ name, url, id, date }) => {
         }
     }, [url]);
 
+    useEffect(() => {
+        if (!src || src === imageSrc) return;
+        dispatch(updateImage({ ...(currentImage as Image), src }));
+    }, [src]);
+
     const buttonHandler = () => {
         dispatch(removeImage(id));
     };
 
-    const renderImage = useMemo(
-        () =>
-            !isLoading && src ? (
-                <img width="200" height="150" ref={imgRef} src={src} alt="test" />
-            ) : (
-                <Skeleton className="skeleton" style={{ width: '200px', height: '150px' }} />
-            ),
-        [isLoading, src],
-    );
+    const renderImage = useMemo(() => {
+        return !isLoading && (src || imageSrc) ? (
+            <img width="200" height="150" ref={imgRef} src={imageSrc ?? src} alt="test" />
+        ) : (
+            <Skeleton className="skeleton" style={{ width: '200px', height: '150px' }} />
+        );
+    }, [isLoading, src, imageSrc]);
 
     return (
         <HistoryCard>

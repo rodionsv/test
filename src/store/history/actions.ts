@@ -1,4 +1,12 @@
-import { ADD_IMAGE, FETCH_IMAGE, REMOVE_IMAGE, REMOVE_LAST_IMAGE, SET_IMAGES, SET_LAST_IMAGE } from './types';
+import {
+    ADD_IMAGE,
+    FETCH_IMAGE,
+    REMOVE_IMAGE,
+    REMOVE_LAST_IMAGE,
+    SET_IMAGES,
+    SET_LAST_IMAGE,
+    UPDATE_IMAGE,
+} from './types';
 import { NewAction } from '../../shared/interfaces/new-action';
 import { Image } from '../../shared/interfaces/image';
 import StorageWorker from '../../shared/helpers/storage-worker';
@@ -48,9 +56,18 @@ export const setImages = (images: Image[]): NewAction<Image[]> => {
     };
 };
 
+export const updateImage = (image: Image): NewAction<Image> => {
+    return {
+        type: UPDATE_IMAGE,
+        payload: image,
+    };
+};
+
 export type HistoryActionTypes =
     | ReturnType<typeof fetchImage>
     | ReturnType<typeof addImage>
     | ReturnType<typeof setCurrentImage>
     | ReturnType<typeof removeCurrentImage>
-    | ReturnType<typeof removeImage>;
+    | ReturnType<typeof removeImage>
+    | ReturnType<typeof setImages>
+    | ReturnType<typeof updateImage>;

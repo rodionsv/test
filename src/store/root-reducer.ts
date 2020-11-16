@@ -1,10 +1,13 @@
 import { combineReducers } from 'redux';
-import { historyReducer } from './history/reducer';
-import { reducer } from './app/reducer';
+import { historyReducer, HistorySate } from './history/reducer';
+import { AppState, reducer } from './app/reducer';
 
 export const rootReducer = combineReducers({
     app: reducer,
     history: historyReducer,
 });
 
-export type RootState = ReturnType<typeof rootReducer>;
+export type RootState = {
+    app: AppState;
+    history: HistorySate;
+};

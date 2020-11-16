@@ -9,14 +9,14 @@ import { UploadButton } from '../../styles/styled-components/UploadButton';
 
 const Main: FC = () => {
     const dispatch = useDispatch();
-    const { currentImage }: { currentImage: Image } = useSelector((state: RootState) => state.history);
+    const currentImage = useSelector((state: RootState) => state.history.currentImage);
 
     // to abort our requests when leave page
     const [abortController] = useState(new window.AbortController());
     // to control our xhr response
     const [xhr] = useState(new XMLHttpRequest());
     const [loading, setLoading] = useState<boolean>(false);
-    const [image, setImage] = useState<Image>();
+    const [image] = useState<Image>();
     const [src, setSrc] = useState<string>();
 
     const imgRef = useRef<HTMLImageElement>(null);
@@ -45,6 +45,7 @@ const Main: FC = () => {
         xhr.open('GET', currentImage.url, true);
         xhr.responseType = 'blob';
         // function instead of arrow function for this
+        // eslint-disable-next-line func-names
         xhr.addEventListener('load', function () {
             createImage(this.response);
         });
