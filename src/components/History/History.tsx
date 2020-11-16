@@ -45,7 +45,7 @@ const History: FC = () => {
             {!images.length && (
                 <p style={{ margin: '16px auto', fontSize: '24px', textAlign: 'center' }}>История пока пуста</p>
             )}
-            {!!images && images.length > 5 && (
+            {!!images && images.length > 5 && !isShowAll && (
                 <ShowMoreButton onClick={() => setShowAll(true)} type="button">
                     Показать еще
                 </ShowMoreButton>

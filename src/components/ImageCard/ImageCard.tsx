@@ -20,6 +20,10 @@ export const ImageCard: FC<Props> = ({ name, url, id, date }) => {
     const imgRef = useRef<HTMLImageElement>(null);
 
     const [isLoading, setLoading] = useState<boolean>(true);
+    // for perform a React state update on an unmounted component
+    const [isCancelled, setCancelled] = useState<boolean>(false);
+    // to abort our requests when leave page
+    const [abortController] = useState(new window.AbortController());
     const [day] = useState<number>(date instanceof Date ? date.getDate() : new Date(date).getDate());
     const [month, setMonth] = useState<string>(
         date instanceof Date ? monthNames[date.getMonth()] : monthNames[new Date(date).getMonth()],
@@ -29,6 +33,10 @@ export const ImageCard: FC<Props> = ({ name, url, id, date }) => {
 
     useEffect(() => {
         setMonth(convertMonth(month));
+        return () => {
+            abortController.abort();
+            setCancelled(true);
+        };
     }, []);
 
     useEffect(() => {
@@ -42,13 +50,16 @@ export const ImageCard: FC<Props> = ({ name, url, id, date }) => {
             };
             reader.readAsDataURL(data);
         };
+        if (!isCancelled) {
+            const { signal } = abortController;
 
-        const fetchImage = async (test: string) => {
-            const response = await fetch(test);
-            createImage(await response.blob());
-        };
+            const fetchImage = async (test: string) => {
+                const response = await fetch(test, { signal });
+                createImage(await response.blob());
+            };
 
-        fetchImage(url);
+            fetchImage(url);
+        }
     }, [url]);
 
     const buttonHandler = () => {

@@ -11,6 +11,10 @@ const Main: FC = () => {
     const dispatch = useDispatch();
     const { currentImage }: { currentImage: Image } = useSelector((state: RootState) => state.history);
 
+    // to abort our requests when leave page
+    const [abortController] = useState(new window.AbortController());
+    // to control our xhr response
+    const [xhr] = useState(new XMLHttpRequest());
     const [loading, setLoading] = useState<boolean>(false);
     const [image, setImage] = useState<Image>();
     const [src, setSrc] = useState<string>();
@@ -20,6 +24,8 @@ const Main: FC = () => {
     useEffect(() => {
         return () => {
             dispatch(removeCurrentImage());
+            abortController.abort();
+            xhr.abort();
         };
     }, []);
 
@@ -36,7 +42,6 @@ const Main: FC = () => {
             reader.readAsDataURL(data);
         };
 
-        const xhr = new XMLHttpRequest();
         xhr.open('GET', currentImage.url, true);
         xhr.responseType = 'blob';
         // function instead of arrow function for this
@@ -77,7 +82,9 @@ const Main: FC = () => {
         <Card style={{ padding: '80px' }}>
             <div
                 style={{
-                    display: 'grid',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
                     width: '600px',
                     height: '430px',
                     margin: 'auto',
