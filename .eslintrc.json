@@ -36,6 +36,7 @@
   },
   "rules": {
     "camelcase": "warn",
+    "no-shadow": "off",
     "no-use-before-define": "off",
     "no-return-await": "off",
     "no-param-reassign": "off",

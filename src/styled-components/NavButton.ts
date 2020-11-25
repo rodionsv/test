@@ -1,5 +1,6 @@
 import { Link, NavLink } from 'react-router-dom';
 import styled from 'styled-components';
+import { Colors } from './global/variables';
 
 export const NavButton = styled(NavLink)`
     display: inline-block;
@@ -15,12 +16,12 @@ export const NavButton = styled(NavLink)`
     border-radius: 4px;
 
     &.active {
-        color: var(--violet);
+        color: ${Colors.violet};
 
-        background-color: var(--gray);
+        background-color: ${Colors.gray};
     }
 
     &:hover {
-        color: var(--violet);
+        color: ${Colors.violet};
     }
 `;

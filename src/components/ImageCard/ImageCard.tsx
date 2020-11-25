@@ -3,9 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { removeImage, updateImage } from '../../store/history/actions';
 import { monthNames } from '../../constants/month-names';
 import { convertMonth } from '../../shared/helpers/date-functions';
-import { HistoryCard } from '../../styles/styled-components/HistoryCard';
-import { DeleteButton } from '../../styles/styled-components/DeleteButton';
-import { Skeleton } from '../../styles/styled-components/Skeleton';
+import { HistoryCard } from '../../styled-components/HistoryCard';
+import { DeleteButton } from '../../styled-components/DeleteButton';
+import { Skeleton } from '../../styled-components/Skeleton';
 import { Image } from '../../shared/interfaces/image';
 import { RootState } from '../../store/root-reducer';
 

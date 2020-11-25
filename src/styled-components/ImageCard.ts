@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Colors } from './global/variables';
 
 export const Loader = styled.article`
     display: grid;
@@ -6,5 +7,5 @@ export const Loader = styled.article`
 
     width: 500px;
 
-    border: 1px solid black;
+    border: 1px solid ${Colors.black};
 `;

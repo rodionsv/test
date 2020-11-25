@@ -21,19 +21,19 @@ export const fetchImage = (): NewAction<void> => {
 export const addImage = (): NewAction<void> => {
     return {
         type: ADD_IMAGE,
-    };
+    } as const;
 };
 
 export const setCurrentImage = (): NewAction<string | number> => {
     return {
         type: SET_LAST_IMAGE,
-    };
+    } as const;
 };
 
 export const removeCurrentImage = (): NewAction<string | number> => {
     return {
         type: REMOVE_LAST_IMAGE,
-    };
+    } as const;
 };
 
 export const removeImage = (id: string | number): NewAction<string | number> => {
@@ -46,7 +46,7 @@ export const removeImage = (id: string | number): NewAction<string | number> => 
     return {
         type: REMOVE_IMAGE,
         payload: id,
-    };
+    } as const;
 };
 
 export const setImages = (images: Image[]): NewAction<Image[]> => {
@@ -60,7 +60,7 @@ export const updateImage = (image: Image): NewAction<Image> => {
     return {
         type: UPDATE_IMAGE,
         payload: image,
-    };
+    } as const;
 };
 
 export type HistoryActionTypes =

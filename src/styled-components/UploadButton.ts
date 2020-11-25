@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { Button } from './Button';
+import { Colors } from './global/variables';
 
 export const UploadButton = styled(Button)`
     position: relative;
@@ -9,11 +10,11 @@ export const UploadButton = styled(Button)`
     margin: 24px auto 0;
     padding-left: 50px;
 
-    color: var(--white);
+    color: ${Colors.white};
     font-weight: 500;
     font-size: 20px;
 
-    background-color: var(--violet);
+    background-color: ${Colors.violet};
     border: none;
 
     &::before {
@@ -31,7 +32,7 @@ export const UploadButton = styled(Button)`
     }
 
     &:disabled {
-        background-color: var(--gray);
+        background-color: ${Colors.gray};
 
         cursor: not-allowed;
     }

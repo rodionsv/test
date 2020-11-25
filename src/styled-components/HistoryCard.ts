@@ -1,13 +1,14 @@
 import styled from 'styled-components';
+import { cardShadow, Colors } from './global/variables';
 
 export const HistoryCard = styled.article`
     display: flex;
 
     margin-bottom: 16px;
 
-    background: var(--white);
+    background: ${Colors.white};
     border-radius: 2px;
-    box-shadow: var(--card-shadow);
+    box-shadow: ${cardShadow};
 
     img {
         margin-right: 50px;

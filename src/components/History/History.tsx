@@ -2,11 +2,11 @@ import React, { FC, useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { ImageCard } from '../ImageCard/ImageCard';
 import { Image } from '../../shared/interfaces/image';
-import { BackButton } from '../../styles/styled-components/BackButton';
+import { BackButton } from '../../styled-components/BackButton';
 import { MAX_HISTORY_COUNT } from '../../constants/const';
 import { RootState } from '../../store/root-reducer';
-import { Card } from '../../styles/styled-components/Card';
-import { ShowMoreButton } from '../../styles/styled-components/ShowMoreButton';
+import { Card } from '../../styled-components/Card';
+import { ShowMoreButton } from '../../styled-components/ShowMoreButton';
 import StorageWorker from '../../shared/helpers/storage-worker';
 import { StorageNames } from '../../constants/storages';
 

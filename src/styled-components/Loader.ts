@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Colors } from './global/variables';
 
 export const Loader = styled.div`
     display: block;
@@ -18,8 +19,8 @@ export const Loader = styled.div`
         margin: 8px;
         
         border-radius: 50%;
-        border: 6px solid var(--white);
-        border-color: var(--loader-color) transparent var(--loader-color) transparent;
+        border: 6px solid ${Colors.white};
+        border-color: ${Colors.loaderColor} transparent ${Colors.loaderColor} transparent;
         
         animation: rotate 1.2s linear infinite;
     }

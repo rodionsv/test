@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
-import { NavButton } from '../../styles/styled-components/NavButton';
-import { MainNav } from '../../styles/styled-components/MainNav';
+import { NavButton } from '../../styled-components/NavButton';
+import { MainNav } from '../../styled-components/MainNav';
 
 const NavBar: FC = () => {
     return (
