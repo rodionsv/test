@@ -9,7 +9,7 @@ const initialState = {
     loading: false,
 };
 
-export const reducer = (state = initialState, action: AppActionTypes) => {
+export const reducer = (state = initialState, action: AppActionTypes): AppState => {
     switch (action.type) {
         case SHOW_LOADER:
             return { ...state, loading: true };

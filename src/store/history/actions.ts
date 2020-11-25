@@ -15,7 +15,7 @@ import { StorageNames } from '../../constants/storages';
 export const fetchImage = (): NewAction<void> => {
     return {
         type: FETCH_IMAGE,
-    };
+    } as const;
 };
 
 export const addImage = (): NewAction<void> => {
@@ -53,7 +53,7 @@ export const setImages = (images: Image[]): NewAction<Image[]> => {
     return {
         type: SET_IMAGES,
         payload: images,
-    };
+    } as const;
 };
 
 export const updateImage = (image: Image): NewAction<Image> => {

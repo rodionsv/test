@@ -1,7 +1,5 @@
-import { Dictionary } from './interfaces';
-
 class StorageWorker {
-    public static get(storage: Dictionary<string | any>, namespace: string, key: any) {
+    public static get<T>(storage: Record<string, string>, namespace: string, key: T): any | undefined {
         if (!storage) {
             return undefined;
         }
@@ -14,7 +12,7 @@ class StorageWorker {
         return data[key];
     }
 
-    public static set(storage: Dictionary<string | any>, namespace: string, key: string, value: any) {
+    public static set<T>(storage: Record<string, string>, namespace: string, key: string, value: T): boolean {
         if (!storage) {
             return false;
         }
@@ -28,7 +26,7 @@ class StorageWorker {
         return true;
     }
 
-    public static remove(storage: Dictionary<string | any>, namespace: string, key: string) {
+    public static remove(storage: Record<string, string>, namespace: string, key: string): boolean {
         if (!storage || !storage[namespace]) {
             return false;
         }
@@ -39,7 +37,7 @@ class StorageWorker {
         return true;
     }
 
-    private static initNamespace(storage: Dictionary<string | any>, namespace: string) {
+    private static initNamespace(storage: Record<string, string>, namespace: string): boolean {
         storage[namespace] = JSON.stringify({});
         return true;
     }

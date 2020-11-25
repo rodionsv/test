@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { historyReducer, HistorySate } from './history/reducer';
+import { historyReducer, HistoryState } from './history/reducer';
 import { AppState, reducer } from './app/reducer';
 
 export const rootReducer = combineReducers({
@@ -9,5 +9,5 @@ export const rootReducer = combineReducers({
 
 export type RootState = {
     app: AppState;
-    history: HistorySate;
+    history: HistoryState;
 };

@@ -6,6 +6,7 @@ import { dismissLoader, showLoader } from '../app/actions';
 import { Urls } from '../../constants/urls';
 import { StorageNames } from '../../constants/storages';
 import StorageWorker from '../../shared/helpers/storage-worker';
+import { Image } from '../../shared/interfaces/image';
 
 export function* sagaWatcher() {
     yield takeEvery(FETCH_IMAGE, sagaWorker);
@@ -17,8 +18,8 @@ const fetchImage = async (): Promise<Response> => {
 };
 
 // function for create interfaces with the necessary data
-const constructImage = (response: FetchImage) => {
-    return {
+const constructImage = (response: FetchImage): Image => {
+    return <Image>{
         id: response.data.id,
         url: response.data.image_url,
         name: response.data.title,

@@ -10,34 +10,34 @@ import {
 import { HistoryActionTypes } from './actions';
 import { Image } from '../../shared/interfaces/image';
 
-export interface HistorySate {
+export interface HistoryState {
     images: Image[];
     fetchedImages: Array<unknown>;
     currentImage?: Image;
 }
 
-const initialState = {
+const initialState: HistoryState = {
     images: [],
     fetchedImages: [],
 };
 
-export const historyReducer = (state = initialState, action: HistoryActionTypes) => {
+export const historyReducer = (state = initialState, action: HistoryActionTypes): HistoryState => {
     switch (action.type) {
         case SET_IMAGES:
-            return { ...state, images: action.payload };
+            return <HistoryState>{ ...state, images: action.payload };
         case FETCH_IMAGE:
-            return { ...state, fetchedImages: [...state.fetchedImages, action.payload] };
+            return <HistoryState>{ ...state, fetchedImages: [...state.fetchedImages, action.payload] };
         case ADD_IMAGE:
-            return { ...state, images: [...state.images, action.payload] };
+            return <HistoryState>{ ...state, images: [...state.images, action.payload] };
         case SET_LAST_IMAGE:
-            return { ...state, currentImage: action.payload };
+            return <HistoryState>{ ...state, currentImage: action.payload };
         case UPDATE_IMAGE:
-            return {
+            return <HistoryState>{
                 ...state,
                 images: state.images.map((image: Image) =>
-                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                    // @ts-ignore
-                    image.id === action.payload?.id ? { ...image, src: action.payload.src } : image,
+                    image.id === (action.payload as Image).id
+                        ? { ...image, src: (action.payload as Image).src }
+                        : image,
                 ),
             };
         case REMOVE_LAST_IMAGE:
