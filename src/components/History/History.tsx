@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useMemo, useState } from 'react';
+import React, { EffectCallback, FC, useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { ImageCard } from '../ImageCard/ImageCard';
 import { Image } from '../../shared/interfaces/image';
@@ -10,32 +10,36 @@ import { ShowMoreButton } from '../../styled-components/ShowMoreButton';
 import StorageWorker from '../../shared/helpers/storage-worker';
 import { StorageNames } from '../../constants/storages';
 
-const History: FC = () => {
+const History: FC = (): JSX.Element => {
     const { images }: { images: Image[] } = useSelector((state: RootState) => state.history);
 
     const [isShowAll, setShowAll] = useState<boolean>(false);
 
     useEffect(() => {
-        return () => {
+        return (): void => {
             StorageWorker.set(StorageNames.LOCAL_STORAGE, 'history', 'images', images);
         };
     }, []);
 
-    const listItems = useMemo(() => {
+    const listItems = useMemo((): JSX.Element[] => {
         if (isShowAll) {
-            return images.map((img: Image, idx: number) => (
-                // for totally unique
-                // eslint-disable-next-line react/no-array-index-key
-                <li key={`${img.id}${idx}`}>
-                    <ImageCard name={img.name} url={img.url} id={img.id} date={img.date} imageSrc={img.src} />
-                </li>
-            ));
+            return images.map(
+                (img: Image, idx: number): JSX.Element => (
+                    // for totally unique
+                    // eslint-disable-next-line react/no-array-index-key
+                    <li key={`${img.id}${idx}`}>
+                        <ImageCard name={img.name} url={img.url} id={img.id} date={img.date} imageSrc={img.src} />
+                    </li>
+                ),
+            );
         }
-        return images.slice(-MAX_HISTORY_COUNT).map((img: Image) => (
-            <li key={img.id}>
-                <ImageCard name={img.name} url={img.url} id={img.id} date={img.date} />
-            </li>
-        ));
+        return images.slice(-MAX_HISTORY_COUNT).map(
+            (img: Image): JSX.Element => (
+                <li key={img.id}>
+                    <ImageCard name={img.name} url={img.url} id={img.id} date={img.date} />
+                </li>
+            ),
+        );
     }, [images, isShowAll]);
 
     return (

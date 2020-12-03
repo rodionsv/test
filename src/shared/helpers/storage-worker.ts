@@ -1,4 +1,5 @@
 class StorageWorker {
+    // with this realization it is really possible to get any (string, object, array). It is a main goal why this class was created
     public static get<T>(storage: Record<string, string>, namespace: string, key: T): any | undefined {
         if (!storage) {
             return undefined;

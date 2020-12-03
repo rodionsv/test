@@ -17,7 +17,7 @@ interface Props {
     date: Date | string;
 }
 
-export const ImageCard: FC<Props> = ({ name, url, id, date, imageSrc }) => {
+export const ImageCard: FC<Props> = ({ name, url, id, date, imageSrc }): JSX.Element => {
     const dispatch = useDispatch();
     const currentImage = useSelector((state: RootState) =>
         state.history.images.find((image: Image) => image.id === id),
@@ -39,7 +39,7 @@ export const ImageCard: FC<Props> = ({ name, url, id, date, imageSrc }) => {
 
     useEffect(() => {
         setMonth(convertMonth(month));
-        return () => {
+        return (): void => {
             abortController.abort();
             setCancelled(true);
         };
@@ -81,7 +81,7 @@ export const ImageCard: FC<Props> = ({ name, url, id, date, imageSrc }) => {
         dispatch(removeImage(id));
     };
 
-    const renderImage = useMemo(() => {
+    const renderImage = useMemo((): JSX.Element => {
         return !isLoading && (src || imageSrc) ? (
             <img width="200" height="150" ref={imgRef} src={imageSrc ?? src} alt="test" />
         ) : (

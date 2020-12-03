@@ -1,4 +1,4 @@
-export const convertMonth = (month: string) => {
+export const convertMonth = (month: string): string => {
     if (month[month.length - 1] === 'ь') {
         const monthAsArray = month.split('');
         monthAsArray.splice(monthAsArray.length - 1, 1, 'я');

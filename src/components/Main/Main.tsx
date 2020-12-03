@@ -7,7 +7,7 @@ import { Loader } from '../../styled-components/Loader';
 import { Card } from '../../styled-components/Card';
 import { UploadButton } from '../../styled-components/UploadButton';
 
-const Main: FC = () => {
+const Main: FC = (): JSX.Element => {
     const dispatch = useDispatch();
     const currentImage = useSelector((state: RootState) => state.history.currentImage);
 
@@ -20,7 +20,7 @@ const Main: FC = () => {
     const imgRef = useRef<HTMLImageElement>(null);
 
     useEffect(() => {
-        return () => {
+        return (): void => {
             dispatch(removeCurrentImage());
             xhr.abort();
         };
@@ -67,7 +67,7 @@ const Main: FC = () => {
         [image, src],
     );
 
-    const clickHandler = useCallback(() => {
+    const clickHandler = useCallback((): void => {
         setLoading(true);
         dispatch(fetchImage());
     }, []);

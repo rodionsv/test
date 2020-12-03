@@ -34,16 +34,17 @@ export const historyReducer = (state = initialState, action: HistoryActionTypes)
         case UPDATE_IMAGE:
             return <HistoryState>{
                 ...state,
-                images: state.images.map((image: Image) =>
-                    image.id === (action.payload as Image).id
-                        ? { ...image, src: (action.payload as Image).src }
-                        : image,
+                images: state.images.map(
+                    (image: Image): Image =>
+                        image.id === (action.payload as Image)?.id
+                            ? { ...image, src: (action.payload as Image).src }
+                            : image,
                 ),
             };
         case REMOVE_LAST_IMAGE:
-            return { ...state, currentImage: undefined };
+            return <HistoryState>{ ...state, currentImage: undefined };
         case REMOVE_IMAGE:
-            return {
+            return <HistoryState>{
                 ...state,
                 images: state.images.filter((item: Image) => item.id !== action.payload),
             };
